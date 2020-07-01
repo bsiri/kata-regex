@@ -3,4 +3,3 @@
 *.iml
 kata-regex.iml
 target
-src/main/java/**/impl

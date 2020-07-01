@@ -13,6 +13,18 @@ public class LogExtractorFactory {
 		return passThrough;
 	}
 
+	public static LogExtractor createMonsterWorkdayExtractor(String classname){
+		return passThrough;
+	}
+
+	public static LogExtractor createAfternoonNoInfoExtractor(){
+		return passThrough;
+	}
+
+	public static LogExtractor createTimeTwisterExtractor(){
+		return passThrough;
+	}
+
 
 	public static LogExtractor passThrough = (lines) ->  lines;
 }
