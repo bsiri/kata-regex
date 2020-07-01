@@ -1,9 +1,10 @@
 package org.bsiri.kata.regex1;
 
-
 public class LogExtractorFactory {
 
 	private LogExtractorFactory(){}
+
+	// ********************* Level 1 ***********************************************
 
 	public static LogExtractor createClassFilterExtractor(String classname){
 		return passThrough;
@@ -25,6 +26,15 @@ public class LogExtractorFactory {
 		return passThrough;
 	}
 
+	// ********************* Level 2 ***********************************************
+
+	public static LogExtractor createPrettyPrinterExtractor(){
+		return passThrough;
+	}
+
+	public static LogExtractor createBeastListExtractor(){
+		return passThrough;
+	}
 
 	public static LogExtractor passThrough = (lines) ->  lines;
 }

@@ -8,7 +8,7 @@ class LogExtractorFactoryTest extends Specification {
 
     def "should extract from the logs every lines about a given class"(){
         given:
-            def lines = load("dungeon.log")
+            def lines = load("dungeon-1.log")
 
         when:
         def extractor = LogExtractorFactory.createClassFilterExtractor("org.bsiri.randomcode.heroquest.Orc")
@@ -25,7 +25,7 @@ class LogExtractorFactoryTest extends Specification {
 
     def "should marshal a logfile and return the classnames"(){
         given:
-            def lines = load("dungeon.log")
+            def lines = load("dungeon-1.log")
 
         when:
             def extractor = LogExtractorFactory.createClassnameExtractor()
@@ -49,7 +49,7 @@ class LogExtractorFactoryTest extends Specification {
     def "should print the Boss' workday highlights"(){
 
         given:
-            def lines = load("dungeon.log")
+            def lines = load("dungeon-1.log")
 
         when:
         def extractor = LogExtractorFactory.createMonsterWorkdayExtractor("org.bsiri.randomcode.heroquest.Boss")
@@ -65,7 +65,7 @@ class LogExtractorFactoryTest extends Specification {
 
     def "should log everything that happened in the afternoon except the INFO level"(){
         given:
-        def lines = load("dungeon.log")
+        def lines = load("dungeon-1.log")
 
         when:
         def extractor = LogExtractorFactory.createAfternoonNoInfoExtractor()
@@ -82,7 +82,7 @@ class LogExtractorFactoryTest extends Specification {
 
     def "should swap the seconds, minutes and hours from the logs"(){
         given:
-        def lines = load("dungeon.log")
+        def lines = load("dungeon-1.log")
 
         when:
         def extractor = LogExtractorFactory.createTimeTwisterExtractor()
@@ -103,14 +103,49 @@ class LogExtractorFactoryTest extends Specification {
     }
 
 
-    // ************************************ Level 2 *****************************************************
+    // ********************* Level 2 ***********************************************
 
+    def "should list the simple classname of all the monsters"(){
+        given :
+        def lines = load("dungeon-2.log")
 
-    def "should list the simple classname of all the monsters that fought today"(){
-        
+        when:
+        def extractor = LogExtractorFactory.createBeastListExtractor()
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "Bat",
+                "Giant",
+                "AGrouGrou",
+                "Boss",
+                "CowardGoblin"
+        ]
     }
 
 
+    def "You're the janitor of that dungeon : clean those messy logs"(){
+        given :
+            def lines = load("dungeon-2.log")
+
+        when:
+        def extractor = LogExtractorFactory.createPrettyPrinterExtractor()
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "[DEBUG] 01:10:32 == org.bsiri.randomcode.monster.Bat : upgraded localisation system to sonarqube",
+                "[ERROR] 09:21:32 == org.bsiri.randomcode.monster.Giant : accidentally stomped on the magus (ooops)",
+                "[DEBUG] 10:52:38 == org.bsiri.randomcode.monster.AGrouGrou : spooked itself",
+                "[INFO] 14:15:16 == org.bsiri.randomcode.monster.Boss : today I killed : a knight, a dwarf, an elf, another dwarf, and my goblin servant",
+                "[ERROR] 17:20:35 == org.bsiri.randomcode.monster.CowardGoblin : HELP THE CAPTIVE PRINCESS WOOPED THE #*! OF THE MINOTAUR WITH HER BARE KNUCKLES AND ESCAPED !",
+                "[ERROR] 18:20:32 == org.bsiri.randomcode.monster.TimeLooper : [ERROR] 18:20:32 == org.bsiri.randomcode.monster.TimeLooper : looped"
+        ]
+    }
+
+
+
+    // **************** utils *************************
 
     def load(name){
         new File(this.class.classLoader.getResource(name).toURI()).readLines()
