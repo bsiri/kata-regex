@@ -8,28 +8,28 @@ class LogExtractorFactoryTest extends Specification {
 
     def "should extract from the logs every lines about a given class"(){
         given:
-            def lines = load("dungeon-1.log")
+        def lines = load("dungeon-1.log")
 
         when:
         def extractor = LogExtractorFactory.createClassFilterExtractor("org.bsiri.randomcode.heroquest.Orc")
         def result = extractor.extract(lines)
 
         then:
-            result == [
-                    "[DEBUG] 10:24:30    == org.bsiri.randomcode.heroquest.Orc : failed to kill a rat !",
-                    "[DEBUG] 15:28:30    == org.bsiri.randomcode.heroquest.Orc : failed again to kill a rat !",
-                    "[INFO]  18:40:20    == org.bsiri.randomcode.heroquest.Orc : decided to eat the rat instead"
-            ]
+        result == [
+                "[DEBUG] 10:24:30    == org.bsiri.randomcode.heroquest.Orc : failed to kill a rat !",
+                "[DEBUG] 15:28:30    == org.bsiri.randomcode.heroquest.Orc : failed again to kill a rat !",
+                "[INFO]  18:40:20    == org.bsiri.randomcode.heroquest.Orc : decided to eat the rat instead"
+        ]
 
     }
 
     def "should marshal a logfile and return the classnames"(){
         given:
-            def lines = load("dungeon-1.log")
+        def lines = load("dungeon-1.log")
 
         when:
-            def extractor = LogExtractorFactory.createClassnameExtractor()
-            def result = extractor.extract(lines)
+        def extractor = LogExtractorFactory.createClassnameExtractor()
+        def result = extractor.extract(lines)
 
         then:
         result == [
@@ -49,7 +49,7 @@ class LogExtractorFactoryTest extends Specification {
     def "should print the Boss' workday highlights"(){
 
         given:
-            def lines = load("dungeon-1.log")
+        def lines = load("dungeon-1.log")
 
         when:
         def extractor = LogExtractorFactory.createMonsterWorkdayExtractor("org.bsiri.randomcode.heroquest.Boss")
@@ -89,17 +89,17 @@ class LogExtractorFactoryTest extends Specification {
         def result = extractor.extract(lines)
 
         then:
-            result == [
-                    "[DEBUG] 30:24:10    == org.bsiri.randomcode.heroquest.Orc : failed to kill a rat !",
-                    "[ERROR] 56:00:11    == org.bsiri.randomcode.heroquest.Dungeon : created room with negative coordinates",
-                    "[INFO]  59:59:11    == org.bsiri.randomcode.heroquest.Boss : lunch time, I'm off",
-                    "[DEBUG] 30:28:15    == org.bsiri.randomcode.heroquest.Orc : failed again to kill a rat !",
-                    "[DEBUG] 20:50:15    == org.bsiri.randomcode.heroquest.Boss : back from lunch",
-                    "[INFO]  38:10:16    == org.bsiri.randomcode.heroquest.Bat : morphed to human form and gone fighting crime in Gotham",
-                    "[INFO]  20:40:18    == org.bsiri.randomcode.heroquest.Orc : decided to eat the rat instead",
-                    "[INFO]  00:41:18    == org.bsiri.randomcode.heroquest.Dungeon : awared 1po to the orc.bsiri.randomcode.heroquest.Orc",
-                    "[ERROR] 61:81:19    == org.bsiri.randomcode.heroquest.Dungeon : impossible hour !"
-            ]
+        result == [
+                "[DEBUG] 30:24:10    == org.bsiri.randomcode.heroquest.Orc : failed to kill a rat !",
+                "[ERROR] 56:00:11    == org.bsiri.randomcode.heroquest.Dungeon : created room with negative coordinates",
+                "[INFO]  59:59:11    == org.bsiri.randomcode.heroquest.Boss : lunch time, I'm off",
+                "[DEBUG] 30:28:15    == org.bsiri.randomcode.heroquest.Orc : failed again to kill a rat !",
+                "[DEBUG] 20:50:15    == org.bsiri.randomcode.heroquest.Boss : back from lunch",
+                "[INFO]  38:10:16    == org.bsiri.randomcode.heroquest.Bat : morphed to human form and gone fighting crime in Gotham",
+                "[INFO]  20:40:18    == org.bsiri.randomcode.heroquest.Orc : decided to eat the rat instead",
+                "[INFO]  00:41:18    == org.bsiri.randomcode.heroquest.Dungeon : awared 1po to the orc.bsiri.randomcode.heroquest.Orc",
+                "[ERROR] 61:81:19    == org.bsiri.randomcode.heroquest.Dungeon : impossible hour !"
+        ]
     }
 
 
@@ -120,8 +120,8 @@ class LogExtractorFactoryTest extends Specification {
                 "Giant",
                 "SneezingDwarf",
                 "SneezingDwarf",
-                "Escapist",
-                "Escapist"
+                "Doppelganger",
+                "Doppelganger"
         ]
     }
 
@@ -144,6 +144,20 @@ class LogExtractorFactoryTest extends Specification {
 
     }
 
+    def "If you want to pick the correct Doppleganger, all you need is a good quote"(){
+        given :
+        def lines = load("dungeon-2.log")
+
+        when:
+        def extractor = LogExtractorFactory.createDoppelGangerCapturer("org.bsiri.randomcode.monster.Doppelganger")
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "[INFO] 17:10:23     == org.bsiri.randomcode.monster.Doppelganger : I'm the good one !"
+        ]
+    }
+
     def "Sneeze faster, dwarf from a different copyrighted fantasy !"(){
         given :
         def lines = load("dungeon-2.log")
@@ -154,25 +168,11 @@ class LogExtractorFactoryTest extends Specification {
 
         then:
         result == [
-                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : aa... tchi !",
-                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : a... aaa... aa... tchi !"
+                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : aaa... tchi !",
+                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : a... aa... aaa... tchi !"
         ]
 
 
-    }
-
-    def "If you want to capture the Escapist, you just need a good quote"(){
-        given :
-        def lines = load("dungeon-2.log")
-
-        when:
-        def extractor = LogExtractorFactory.createEscapistCapturer("org.bsiri.randomcode.monster.Escapist")
-        def result = extractor.extract(lines)
-
-        then:
-        result == [
-                "[INFO] 17:11:24     == org.bsiri.randomcode.monster.Escapist : I'm trapped !"
-        ]
     }
 
 
@@ -181,7 +181,7 @@ class LogExtractorFactoryTest extends Specification {
 
     def "You're the janitor of that dungeon : clean those messy logs"(){
         given :
-            def lines = load("dungeon-3.log")
+        def lines = load("dungeon-3.log")
 
         when:
         def extractor = LogExtractorFactory.createPrettyPrinterExtractor()
