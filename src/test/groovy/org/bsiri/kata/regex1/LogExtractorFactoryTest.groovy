@@ -120,8 +120,8 @@ class LogExtractorFactoryTest extends Specification {
                 "Giant",
                 "SneezingDwarf",
                 "SneezingDwarf",
-                "Escapist",
-                "Escapist"
+                "Doppelganger",
+                "Doppelganger"
         ]
     }
 
@@ -144,6 +144,20 @@ class LogExtractorFactoryTest extends Specification {
 
     }
 
+    def "If you want to pick the correct Doppleganger, all you need is a good quote"(){
+        given :
+        def lines = load("dungeon-2.log")
+
+        when:
+        def extractor = LogExtractorFactory.createDoppelGangerCapturer("org.bsiri.randomcode.monster.Doppelganger")
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "[INFO] 17:10:23     == org.bsiri.randomcode.monster.Doppelganger : I'm the good one !"
+        ]
+    }
+
     def "Sneeze faster, dwarf from a different copyrighted fantasy !"(){
         given :
         def lines = load("dungeon-2.log")
@@ -154,25 +168,11 @@ class LogExtractorFactoryTest extends Specification {
 
         then:
         result == [
-                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : aa... tchi !",
-                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : a... aaa... aa... tchi !"
+                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : aaa... tchi !",
+                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : a... aa... aaa... tchi !"
         ]
 
 
-    }
-
-    def "If you want to capture the Escapist, you just need a good quote"(){
-        given :
-        def lines = load("dungeon-2.log")
-
-        when:
-        def extractor = LogExtractorFactory.createEscapistCapturer("org.bsiri.randomcode.monster.Escapist")
-        def result = extractor.extract(lines)
-
-        then:
-        result == [
-                "[INFO] 17:11:24     == org.bsiri.randomcode.monster.Escapist : I'm trapped !"
-        ]
     }
 
 

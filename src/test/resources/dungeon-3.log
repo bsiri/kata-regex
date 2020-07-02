@@ -4,4 +4,4 @@ DEBUGDEBUGdebug 10.52:38 ** org.bsiri.randomcode.monster.AGrouGrou -   spooked  
 INFO 14:15:16 ([      org.bsiri.randomcode.monster.Boss ?   today I killed : a knight, a dwarf, an elf, another dwarf, and my goblin servant
 hihihi I'm not a log
 [ERROR]   17:20:35     --org.anotherguy.randomcode.monster.CowardGoblin : HELP THE CAPTIVE PRINCESS WOOPED THE #*! OF THE MINOTAUR WITH HER BARE KNUCKLES AND ESCAPED !
-[ERROR]   18:20:32 == org.bsiri.randomcode.monster.TimeLooper : [INFO] 18:20:32 == org.bsiri.randomcode.monster.TimeLooper : looped
+[ERROR]   18:20:32 == org.bsiri.randomcode.monster.TimeLooper : [ERROR] 18:20:32 == org.bsiri.randomcode.monster.TimeLooper : looped
