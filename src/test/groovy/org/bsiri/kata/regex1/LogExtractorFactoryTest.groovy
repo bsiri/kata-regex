@@ -115,18 +115,73 @@ class LogExtractorFactoryTest extends Specification {
 
         then:
         result == [
-                "Bat",
+                "Cerberus",
+                "SleepyGoblin",
                 "Giant",
-                "AGrouGrou",
-                "Boss",
-                "CowardGoblin"
+                "SneezingDwarf",
+                "SneezingDwarf",
+                "Escapist",
+                "Escapist"
+        ]
+    }
+
+    def "The Giant caused a mess again, build me a report"(){
+        given :
+        def lines = load("dungeon-2.log")
+
+        when:
+        def extractor = LogExtractorFactory.createGiantReporter()
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "What happened is : ",
+                "entered a lower cavern",
+                "the head hit the ceiling",
+                "causing a general collapse"
+        ]
+
+
+    }
+
+    def "Sneeze faster, dwarf from a different copyrighted fantasy !"(){
+        given :
+        def lines = load("dungeon-2.log")
+
+        when:
+        def extractor = LogExtractorFactory.createSneezingLimiter()
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : aa... tchi !",
+                "[DEBUG] 15:49:12    == org.bsiri.randomcode.snowwhite.SneezingDwarf : a... aaa... aa... tchi !"
+        ]
+
+
+    }
+
+    def "If you want to capture the Escapist, you just need a good quote"(){
+        given :
+        def lines = load("dungeon-2.log")
+
+        when:
+        def extractor = LogExtractorFactory.createEscapistCapturer("org.bsiri.randomcode.monster.Escapist")
+        def result = extractor.extract(lines)
+
+        then:
+        result == [
+                "[INFO] 17:11:24     == org.bsiri.randomcode.monster.Escapist : I'm trapped !"
         ]
     }
 
 
+    // ********************* Level 3 ***********************************************
+
+
     def "You're the janitor of that dungeon : clean those messy logs"(){
         given :
-            def lines = load("dungeon-2.log")
+            def lines = load("dungeon-3.log")
 
         when:
         def extractor = LogExtractorFactory.createPrettyPrinterExtractor()
