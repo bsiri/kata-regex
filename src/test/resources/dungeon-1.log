@@ -5,5 +5,5 @@
 [DEBUG] 15:50:20    == org.bsiri.randomcode.heroquest.Boss : back from lunch
 [INFO]  16:10:38    == org.bsiri.randomcode.heroquest.Bat : morphed to human form and gone fighting crime in Gotham
 [INFO]  18:40:20    == org.bsiri.randomcode.heroquest.Orc : decided to eat the rat instead
-[INFO]  18:41:00    == org.bsiri.randomcode.heroquest.Dungeon : awared 1po to the orc.bsiri.randomcode.heroquest.Orc
+[INFO]  18:41:00    == org.bsiri.randomcode.heroquest.Dungeon : awared 1po to the org.bsiri.randomcode.heroquest.Orc
 [ERROR] 19:81:61    == org.bsiri.randomcode.heroquest.Dungeon : impossible hour !
